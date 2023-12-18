@@ -1,0 +1,162 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_customer_followup
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-18 06:50+0000\n"
+"PO-Revision-Date: 2023-12-18 06:50+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_customer_followup
+#: model:ir.model.fields,field_description:account_customer_followup.field_res_partner__total_amount_due
+#: model:ir.model.fields,field_description:account_customer_followup.field_res_users__total_amount_due
+#: model_terms:ir.ui.view,arch_db:account_customer_followup.customer_followup_form_view
+msgid "Amount Due"
+msgstr "Montant dù"
+
+#. module: account_customer_followup
+#: model:ir.model.fields,field_description:account_customer_followup.field_res_partner__total_amount_overdue
+#: model:ir.model.fields,field_description:account_customer_followup.field_res_users__total_amount_overdue
+msgid "Amount Overdue"
+msgstr "Montant dù en retard"
+
+#. module: account_customer_followup
+#: model:ir.model.fields.selection,name:account_customer_followup.selection__res_partner__payer_type__blocked
+msgid "Bad payer"
+msgstr "Mauvais payeur"
+
+#. module: account_customer_followup
+#: model:ir.model,name:account_customer_followup.model_res_partner
+msgid "Contact"
+msgstr "Contacte"
+
+#. module: account_customer_followup
+#: model_terms:ir.ui.view,arch_db:account_customer_followup.customer_followup_form_view
+msgid "Date"
+msgstr "Date"
+
+#. module: account_customer_followup
+#: model:ir.model.fields,field_description:account_customer_followup.field_account_bank_statement_line__excluded_from_report
+#: model:ir.model.fields,field_description:account_customer_followup.field_account_move__excluded_from_report
+#: model:ir.model.fields,field_description:account_customer_followup.field_account_payment__excluded_from_report
+msgid "Excluded"
+msgstr "Exclu"
+
+#. module: account_customer_followup
+#: model:ir.actions.act_window,name:account_customer_followup.action_customer_followup
+#: model:ir.ui.menu,name:account_customer_followup.menu_action_customer_followup
+msgid "Follow-up Reports"
+msgstr "Rapports de relance"
+
+#. module: account_customer_followup
+#: model_terms:ir.ui.view,arch_db:account_customer_followup.customer_followup_tree_view
+msgid "Follow-up Reports Tree View"
+msgstr ""
+
+#. module: account_customer_followup
+#: model:ir.model.fields,field_description:account_customer_followup.field_res_partner__followup_status
+#: model:ir.model.fields,field_description:account_customer_followup.field_res_users__followup_status
+msgid "Followup status"
+msgstr "Statut"
+
+#. module: account_customer_followup
+#: model:ir.model.fields.selection,name:account_customer_followup.selection__res_partner__payer_type__done
+msgid "Good payer"
+msgstr "Bon payeur"
+
+#. module: account_customer_followup
+#: model:ir.model.fields.selection,name:account_customer_followup.selection__res_partner__followup_status__in_need_of_action
+msgid "In need of action"
+msgstr "Besoin d'une action"
+
+#. module: account_customer_followup
+#: model:ir.model,name:account_customer_followup.model_account_move
+msgid "Journal Entry"
+msgstr "Pièce comptable"
+
+#. module: account_customer_followup
+#: model_terms:ir.ui.view,arch_db:account_customer_followup.customer_followup_form_view
+msgid "List of unpaid invoices"
+msgstr "Liste des factures impayés"
+
+#. module: account_customer_followup
+#: model:ir.model.fields,field_description:account_customer_followup.field_res_partner__next_reminder_date
+#: model:ir.model.fields,field_description:account_customer_followup.field_res_users__next_reminder_date
+msgid "Next reminder Date"
+msgstr "Prochaine date de rappel"
+
+#. module: account_customer_followup
+#: model:ir.model.fields.selection,name:account_customer_followup.selection__res_partner__followup_status__no_action_needed
+msgid "No action needed"
+msgstr "Pas besoin d'une action"
+
+#. module: account_customer_followup
+#: model_terms:ir.actions.act_window,help:account_customer_followup.action_customer_followup
+msgid "No follow-up to send!"
+msgstr "Aucune relance"
+
+#. module: account_customer_followup
+#: model:ir.model.fields.selection,name:account_customer_followup.selection__res_partner__payer_type__normal
+msgid "Normal payer"
+msgstr "Payeur Normal"
+
+#. module: account_customer_followup
+#: model_terms:ir.ui.view,arch_db:account_customer_followup.customer_followup_form_view
+msgid "Source Document"
+msgstr "Document source"
+
+#. module: account_customer_followup
+#: model_terms:ir.ui.view,arch_db:account_customer_followup.customer_followup_form_view
+msgid "Tax"
+msgstr "Taxe"
+
+#. module: account_customer_followup
+#: model_terms:ir.ui.view,arch_db:account_customer_followup.customer_followup_form_view
+msgid "Tax Excluded"
+msgstr "Taxes exclues"
+
+#. module: account_customer_followup
+#: model_terms:ir.ui.view,arch_db:account_customer_followup.customer_followup_form_view
+#: model_terms:ir.ui.view,arch_db:account_customer_followup.customer_followup_tree_view
+msgid "Total"
+msgstr "Total"
+
+#. module: account_customer_followup
+#: model_terms:ir.ui.view,arch_db:account_customer_followup.customer_followup_form_view
+msgid "Total in Currency"
+msgstr "Total en devises"
+
+#. module: account_customer_followup
+#: model:ir.model.fields,field_description:account_customer_followup.field_res_partner__payer_type
+#: model:ir.model.fields,field_description:account_customer_followup.field_res_users__payer_type
+msgid "Type of payer"
+msgstr "Type de payeur"
+
+#. module: account_customer_followup
+#: model:ir.model.fields.selection,name:account_customer_followup.selection__res_partner__followup_status__with_overdue_invoices
+msgid "With overdue invoices"
+msgstr "Avec factures en retard"
+
+#. module: account_customer_followup
+#: model_terms:ir.ui.view,arch_db:account_customer_followup.customer_followup_form_view
+msgid "has no due amount."
+msgstr "n'a pas de montant dû"
+
+#. module: account_customer_followup
+#: model_terms:ir.ui.view,arch_db:account_customer_followup.customer_followup_form_view
+msgid "report"
+msgstr "Rapport"
+
+#. module: account_customer_followup
+#: model:ir.model.fields,field_description:account_customer_followup.field_res_partner__account_move_residual_ids
+#: model:ir.model.fields,field_description:account_customer_followup.field_res_users__account_move_residual_ids
+msgid "unpaid invoices"
+msgstr "factures impayées"

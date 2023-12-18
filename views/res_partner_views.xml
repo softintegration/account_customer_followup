@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="customer_followup_form_view" model="ir.ui.view">
+            <field name="name">customer.followup.form.view</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <form string="report" create="false" edit="false">
+                    <header>
+                        <field name="followup_status" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <div class="oe_left">
+                                <field name="payer_type" class="oe_inline" widget="state_selection" colors='{"good_payer": "success", "bad_payer": "danger", "normal_payer": "muted"}'/>
+                            </div>
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <br/>
+
+                        <div class="alert alert-warning o_account_reports_followup-no-action"
+                             attrs="{'invisible': [('account_move_residual_ids', '!=', [])]}"
+                             id='no-action' role="alert">
+                            <p>
+                                <strong>
+                                    <field name="name"/>
+                                </strong>
+                                has no due amount.
+                            </p>
+                        </div>
+
+                        <div attrs="{'invisible': [('account_move_residual_ids', '=', [])]}">
+                            <group>
+                                <field name="next_reminder_date"/>
+                            </group>
+                            <notebook colspan="4">
+                                <page string="List of unpaid invoices">
+                                    <field name="account_move_residual_ids" nolabel="1">
+                                        <tree create="0"  delete="0" editable="bottom">
+                                            <field name="name" decoration-bf="1" readonly="1"/>
+                                            <field name="date" string="Date" readonly="1"/>
+                                            <field name="invoice_date_due" widget="remaining_days" readonly="1"/>
+                                            <field name="invoice_origin" string="Source Document" readonly="1"/>
+                                            <field name="excluded_from_report" readonly="0"/>
+                                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" optional="hide" readonly="1"/>
+                                            <field name="amount_untaxed_signed" string="Tax Excluded" sum="Total" optional="hide" readonly="1"/>
+                                            <field name="amount_tax_signed" string="Tax" sum="Total" optional="hide" readonly="1"/>
+                                            <field name="amount_total_signed" string="Total" sum="Total" decoration-bf="1" optional="hide" readonly="1"/>
+                                            <field name="amount_total_in_currency_signed" string="Total in Currency" groups="base.group_multi_currency" optional="hide" readonly="1"/>
+                                            <field name="amount_residual_signed" string="Amount Due" sum="Amount Due" readonly="1"/>
+                                            <field name="currency_id" groups="base.group_multi_currency" optional="hide" readonly="1"/>
+                                            <field name="company_currency_id" invisible="1" readonly="1"/>
+                                            <field name="payment_state" widget="badge" decoration-danger="payment_state == 'not_paid'" decoration-warning="payment_state in ('partial', 'in_payment')" decoration-success="payment_state in ('paid', 'reversed')" optional="hide" readonly="1"/>
+                                            <field name="state" widget="badge" decoration-success="state == 'posted'" decoration-info="state == 'draft'" optional="hide" readonly="1"/>
+                                        </tree>
+                                    </field>
+                                </page>
+
+                            </notebook>
+                        </div>
+                        <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                            <field name="total_amount_due" class="oe_subtotal_footer_separator" widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"/>
+                            <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                <label for="total_amount_overdue"/>
+                            </div>
+                            <field name="total_amount_overdue" nolabel="1" class="oe_subtotal_footer_separator"
+                                   widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="customer_followup_tree_view" model="ir.ui.view">
+            <field name="name">customer.followup.tree.view</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <tree string="Follow-up Reports Tree View" create="false" import="false" delete="false">
+                    <field name="currency_id" invisible="1"/>
+                    <field name="name"/>
+                    <field name="total_amount_due" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total"/>
+                    <field name="total_amount_overdue" widget="monetary" options="{'currency_field': 'currency_id'}"
+                           sum="Total"/>
+                    <field name="followup_status"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_customer_followup" model="ir.actions.act_window">
+            <field name="name">Follow-up Reports</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('customer_followup_tree_view')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('customer_followup_form_view')})]"/>
+            <!--<field name="context">{'search_default_filter_in_need_of_action':1}</field>-->
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No follow-up to send!
+                </p>
+            </field>
+        </record>
+
+</odoo>

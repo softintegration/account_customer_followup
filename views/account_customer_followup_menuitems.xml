@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+        <menuitem id="menu_action_customer_followup" name="Follow-up Reports"
+                  parent="account.menu_finance_receivables"
+                  action="action_customer_followup" sequence="20"
+                  groups="account.group_account_user"/>
+
+</odoo>
