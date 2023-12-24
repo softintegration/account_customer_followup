@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_followup_level_manager,followup.level.manager,model_followup_level,account.group_account_manager,1,1,1,1
+access_followup_level_user,followup.level.user,model_followup_level,account.group_account_user,1,0,0,0
+access_followup_level_action_manager,followup.level.action.manager,model_followup_level_action,account.group_account_manager,1,1,1,1
+access_followup_level_action_user,followup.level.action.user,model_followup_level_action,base.group_user,1,0,0,0

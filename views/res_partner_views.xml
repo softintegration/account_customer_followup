@@ -5,8 +5,13 @@
             <field name="name">customer.followup.form.view</field>
             <field name="model">res.partner</field>
             <field name="arch" type="xml">
-                <form string="report" create="false" edit="false">
+                <form string="report" create="false">
                     <header>
+                        <button type="object" name="send_invoices_by_mail" string="Send by mail" class="oe_highlight"
+                        attrs="{'invisible':[('send_by_mail_action','=',False)]}"/>
+
+                        <button type="object" name="make_as_done" string="Make action as done"
+                        attrs="{'invisible':[('followup_status','!=','in_need_of_action')]}"/>
                         <field name="followup_status" widget="statusbar"/>
                     </header>
                     <sheet>
@@ -34,6 +39,10 @@
                         <div attrs="{'invisible': [('account_move_residual_ids', '=', [])]}">
                             <group>
                                 <field name="next_reminder_date"/>
+                                <field name="send_by_mail_action" invisible="1"/>
+                            </group>
+                            <group attrs="{'invisible':[('followup_status','!=','in_need_of_action')]}" >
+                                <field name="reminder_text" nolabel="1" />
                             </group>
                             <notebook colspan="4">
                                 <page string="List of unpaid invoices">
@@ -89,8 +98,24 @@
                     <field name="total_amount_due" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total"/>
                     <field name="total_amount_overdue" widget="monetary" options="{'currency_field': 'currency_id'}"
                            sum="Total"/>
-                    <field name="followup_status"/>
+                    <field name="followup_status" widget="badge" decoration-danger="followup_status == 'in_need_of_action'"
+                           decoration-warning="followup_status == 'with_overdue_invoices'" />
                 </tree>
+            </field>
+        </record>
+
+        <record id="customer_followup_search_view" model="ir.ui.view">
+            <field name="name">customer.followup.search.view</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <search string="Search Partner">
+                    <field name="name"
+                        filter_domain="['|', '|', ('display_name', 'ilike', self), ('ref', '=', self), ('email', 'ilike', self)]"/>
+                    <separator/>
+                    <filter string="Overdue Invoices" name="filter_with_overdue_invoices" domain="[('followup_status', '=', 'with_overdue_invoices')]"/>
+                    <filter string="In need of action" name="filter_in_need_of_action" domain="[('followup_status', '=', 'in_need_of_action')]"/>
+                    <filter string="No action needed" name="filter_no_action_needed" domain="[('followup_status', '=', 'no_action_needed')]"/>
+                </search>
             </field>
         </record>
 
@@ -101,7 +126,8 @@
             <field name="view_ids" eval="[(5, 0, 0),
             (0, 0, {'view_mode': 'tree', 'view_id': ref('customer_followup_tree_view')}),
             (0, 0, {'view_mode': 'form', 'view_id': ref('customer_followup_form_view')})]"/>
-            <!--<field name="context">{'search_default_filter_in_need_of_action':1}</field>-->
+            <field name="search_view_id" ref="customer_followup_search_view"/>
+            <field name="context">{'search_default_filter_in_need_of_action':1}</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     No follow-up to send!

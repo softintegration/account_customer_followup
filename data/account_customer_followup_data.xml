@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="followup.level.action" id="action_send_bymail" >
+            <field name="name">Send by mail</field>
+            <field name="action_code">action_send_bymail</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record id="followup_level_form_view" model="ir.ui.view">
+            <field name="name">followup.level.form.view</field>
+            <field name="model">followup.level</field>
+            <field name="arch" type="xml">
+                <form string="Follow-up level">
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                        <group>
+                            <field name="delay"/>
+                            <field name="action_list_ids" widget="many2many_checkboxes"/>
+                            <field name="email_template_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="followup_level_tree_view" model="ir.ui.view">
+            <field name="name">followup.level.tree.view</field>
+            <field name="model">followup.level</field>
+            <field name="arch" type="xml">
+                <tree string="Follow-up levels" >
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="delay"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="action_followup_level" model="ir.actions.act_window">
+            <field name="name">Follow-up levels</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">followup.level</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Define follow-up levels and their related actions
+              </p><p>
+                For each step, specify the actions to be taken and delay in days. It is
+                possible to use print and e-mail templates to send specific messages to
+                the customer.
+              </p>
+          </field>
+        </record>
+
+    </data>
+</odoo>
