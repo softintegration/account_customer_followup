@@ -2,7 +2,7 @@
 
 {
     'name': 'Account customer followup',
-    'version': '1.0.1.1',
+    'version': '1.0.1.2',
     'author':'Soft-integration',
     'category': 'Accounting',
     'description': "",
@@ -15,7 +15,9 @@
         'data/mail_templates_data.xml',
         'views/res_partner_views.xml',
         'views/followup_level_views.xml',
-        'views/account_customer_followup_menuitems.xml'
+        'views/account_customer_followup_menuitems.xml',
+        'report/report_followup_report.xml',
+        'report/account_customer_followup_report.xml'
     ],
     'installable': True,
     'application': False,

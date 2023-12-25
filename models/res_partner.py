@@ -19,15 +19,19 @@ class ResPartner(models.Model):
                                                 string='unpaid invoices',readonly=False)
     total_amount_due = fields.Monetary(compute='_get_amounts',
                                        string="Amount Due",store=False )  # search='_payment_due_search')
+    total_amount_due_report = fields.Monetary(compute='_get_amounts',
+                                       string="Amount Due",store=False )
     total_amount_overdue = fields.Monetary(compute='_get_amounts',
                                            string="Amount Overdue",store=False )  # search='_payment_overdue_search')
+
     followup_status = fields.Selection(
         [('in_need_of_action', 'In need of action'),
          ('with_overdue_invoices', 'With overdue invoices'),
          ('no_action_needed', 'No action needed')],
         string='Followup status',default='no_action_needed')
     send_by_mail_action = fields.Boolean(default=False)
-    reminder_text = fields.Html(string='Reminder text')
+    reminder_email_template_id = fields.Many2one('mail.template', 'Email Template')
+
 
 
     @api.depends('account_move_residual_ids')
@@ -36,13 +40,17 @@ class ResPartner(models.Model):
         current_date = fields.Date.today()
         for each in self:
             total_amount_due = 0.0
+            total_amount_due_report = 0.0
             total_amount_overdue = 0.0
             for account_move in each.account_move_residual_ids.filtered(lambda move: move.company_id == company):
                 date_due = account_move.invoice_date_due or account_move.date
                 total_amount_due += account_move.amount_residual
+                if not account_move.excluded_from_report:
+                    total_amount_due_report += account_move.amount_residual
                 if date_due <= current_date:
                     total_amount_overdue += account_move.amount_residual
             each.total_amount_due = total_amount_due
+            each.total_amount_due_report = total_amount_due_report
             each.total_amount_overdue = total_amount_overdue
         self._get_followup()
 
@@ -96,7 +104,7 @@ class ResPartner(models.Model):
         # in this step ,beside the reminder rule details,the followup_status must be in_need_of_action
         values = {'followup_status':'in_need_of_action'}
         if reminder_rule.action_list_ids.filtered(lambda act:act.action_code == 'action_send_bymail'):
-            values.update({'send_by_mail_action':True,'reminder_text':reminder_rule.email_template_id.body_html})
+            values.update({'send_by_mail_action':True,'reminder_email_template_id':reminder_rule.email_template_id.id})
         self.write(values)
 
     def _init_followup_status(self):
@@ -104,7 +112,33 @@ class ResPartner(models.Model):
 
 
     def send_invoices_by_mail(self):
-        pass
+        self.ensure_one()
+        template = self.reminder_email_template_id
+        lang = self.env.context.get('lang')
+        if template.lang:
+            lang = template._render_lang(self.ids)[self.id]
+        template.report_template = self.env.ref('account_customer_followup.action_report_followup_reminder').id
+        ctx = {
+            'default_model': self._name,
+            'default_res_id': self.ids[0],
+            'default_use_template': False,
+            'default_template_id': template.id,
+            'default_composition_mode': 'comment',
+            'mark_so_as_sent': True,
+            'custom_layout': "mail.mail_notification_paynow",
+            'force_email': True,
+            'model_description': _('Follow-up Reminder'),
+        }
+        return {
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'mail.compose.message',
+            'views': [(False, 'form')],
+            'view_id': False,
+            'target': 'new',
+            'context': ctx,
+            'lang': lang,
+        }
 
     def make_as_done(self):
         self._make_as_done()

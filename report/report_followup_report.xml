@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <template id="report_followup_report_document">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <h2 class="mt16">
+                        Customer receivables <!--<span t-field="doc.name"/>-->
+                    </h2>
+
+                    <div class="row mt32 mb32" id="informations" style="margin-top:30px !important;">
+                        <div class="col-auto col-3 mw-100 mb-2">
+                            <strong>Customer:</strong>
+                            <span t-field="doc.name"/>
+                        </div>
+                        <div class="col-auto col-3 mw-100 mb-2">
+                            <strong>Edition date:</strong>
+                            <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/>
+                        </div>
+                    </div>
+
+
+                    <table class="table table-sm o_main_table" style="margin-top:30px !important;">
+                        <thead style="display: table-row-group">
+                            <tr>
+                                <th name="th_name" class="text-center">Number</th>
+                                <th name="th_date" class="text-center">Date</th>
+                                <th name="th_invoice_date_due" class="text-center">Due Date</th>
+                                <th name="th_invoice_origin" class="text-center">Source Document</th>
+                                <th name="th_amount_residual_signed" class="text-center">Amount Due</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="doc.account_move_residual_ids.filtered(lambda am:not am.excluded_from_report)" t-as="line">
+                                <tr>
+                                    <t>
+                                        <td class="text-left"><span t-field="line.name"/></td>
+                                    </t>
+                                    <t>
+                                        <td class="text-center"><span t-field="line.date" t-options='{"widget": "date"}'/></td>
+                                    </t>
+                                    <t t-if="line.invoice_date_due">
+                                        <td class="text-center">
+                                            <t t-if="line.invoice_date_due &lt;= datetime.datetime.today().date()">
+                                                <span style="color:#ad2b03;" t-field="line.invoice_date_due" t-options='{"widget": "date"}'/>
+                                            </t>
+                                            <t t-if="line.invoice_date_due &gt; datetime.datetime.today().date()">
+                                                <span t-field="line.invoice_date_due" t-options='{"widget": "date"}'/>
+                                            </t>
+                                        </td>
+                                    </t>
+                                    <t>
+                                        <td class="text-center"><span t-field="line.invoice_origin"/></td>
+                                    </t>
+                                    <t>
+                                        <td class="text-center"><span t-field="line.amount_residual_signed"
+                                        t-options='{"widget": "monetary", "display_currency": line.currency_id}'/></td>
+                                    </t>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <!--<div class="clearfix">
+                        <div id="total" class="row">
+                            <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
+                                <table class="table table-sm" style="page-break-inside: avoid;">
+                                    <tr class="border-black o_total">
+                                        <th>Total Amount Due</th>
+                                        <td class="text-right">
+                                            <span t-field="doc.total_amount_due_report"
+                                                  t-options='{"widget": "monetary", "display_currency": doc.company_id.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>-->
+                    <div class="clearfix">
+                        <div id="total" class="row">
+                            <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
+                                <table class="table table-sm" style="page-break-inside: avoid;">
+                                    <tr class="border-black o_subtotal">
+                                        <td><strong>Total Amount Due</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="doc.total_amount_due_report"
+                                                  t-options='{"widget": "monetary", "display_currency": doc.company_id.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+    </template>
+
+
+    <template id="report_followup_report">
+        <t t-call="web.html_container">
+             <t t-foreach="docs" t-as="doc">
+                <t t-call="account_customer_followup.report_followup_report_document" t-lang="doc.lang"/>
+            </t>
+        </t>
+    </template>
+
+
+</odoo>

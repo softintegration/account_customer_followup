@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-24 09:59+0000\n"
-"PO-Revision-Date: 2023-12-24 09:59+0000\n"
+"POT-Creation-Date: 2023-12-25 06:42+0000\n"
+"PO-Revision-Date: 2023-12-25 06:42+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -62,7 +62,6 @@ msgstr ""
 "</div>\n"
 "            "
 
-
 #. module: account_customer_followup
 #: model:mail.template,body_html:account_customer_followup.email_template_followup_level0
 msgid ""
@@ -111,7 +110,6 @@ msgstr ""
 "\n"
 "</div>\n"
 "            "
-
 
 #. module: account_customer_followup
 #: model:mail.template,body_html:account_customer_followup.email_template_followup_level1
@@ -174,6 +172,26 @@ msgid "${user.company_id.name} Payment Reminder"
 msgstr "${user.company_id.name} Rappel de paiement"
 
 #. module: account_customer_followup
+#: model:ir.actions.report,print_report_name:account_customer_followup.action_report_followup_reminder
+msgid "'Follow-up Reminder - %s' % (object.name or ' ').replace('/','')"
+msgstr ""
+
+#. module: account_customer_followup
+#: model_terms:ir.ui.view,arch_db:account_customer_followup.report_followup_report_document
+msgid "<strong>Customer:</strong>"
+msgstr "<strong>Client:</strong>"
+
+#. module: account_customer_followup
+#: model_terms:ir.ui.view,arch_db:account_customer_followup.report_followup_report_document
+msgid "<strong>Edition date:</strong>"
+msgstr "<strong>Date:</strong>"
+
+#. module: account_customer_followup
+#: model_terms:ir.ui.view,arch_db:account_customer_followup.report_followup_report_document
+msgid "<strong>Total Amount Due</strong>"
+msgstr "<strong>Total dû</strong>"
+
+#. module: account_customer_followup
 #: model:mail.template,name:account_customer_followup.email_template_followup_level1
 msgid "A bit urging second payment follow-up reminder email"
 msgstr "E-mail de rappel de suivi du deuxième paiement un peu incitatif"
@@ -195,8 +213,11 @@ msgstr ""
 
 #. module: account_customer_followup
 #: model:ir.model.fields,field_description:account_customer_followup.field_res_partner__total_amount_due
+#: model:ir.model.fields,field_description:account_customer_followup.field_res_partner__total_amount_due_report
 #: model:ir.model.fields,field_description:account_customer_followup.field_res_users__total_amount_due
+#: model:ir.model.fields,field_description:account_customer_followup.field_res_users__total_amount_due_report
 #: model_terms:ir.ui.view,arch_db:account_customer_followup.customer_followup_form_view
+#: model_terms:ir.ui.view,arch_db:account_customer_followup.report_followup_report_document
 msgid "Amount Due"
 msgstr "Montant dù"
 
@@ -224,7 +245,7 @@ msgstr "Société"
 #. module: account_customer_followup
 #: model:ir.model,name:account_customer_followup.model_res_partner
 msgid "Contact"
-msgstr "Contacte"
+msgstr ""
 
 #. module: account_customer_followup
 #: model:ir.model.fields,field_description:account_customer_followup.field_followup_level__create_uid
@@ -239,9 +260,15 @@ msgid "Created on"
 msgstr ""
 
 #. module: account_customer_followup
+#: model_terms:ir.ui.view,arch_db:account_customer_followup.report_followup_report_document
+msgid "Customer receivables"
+msgstr "Créances client"
+
+#. module: account_customer_followup
 #: model_terms:ir.ui.view,arch_db:account_customer_followup.customer_followup_form_view
+#: model_terms:ir.ui.view,arch_db:account_customer_followup.report_followup_report_document
 msgid "Date"
-msgstr "Date"
+msgstr ""
 
 #. module: account_customer_followup
 #: model_terms:ir.actions.act_window,help:account_customer_followup.action_followup_level
@@ -255,12 +282,19 @@ msgid "Display Name"
 msgstr "Nom à afficher"
 
 #. module: account_customer_followup
+#: model_terms:ir.ui.view,arch_db:account_customer_followup.report_followup_report_document
+msgid "Due Date"
+msgstr "Date d'échéance"
+
+#. module: account_customer_followup
 #: model:ir.model.fields,field_description:account_customer_followup.field_followup_level__delay
 msgid "Due Days"
 msgstr "Délai aprés la date d'échéance"
 
 #. module: account_customer_followup
 #: model:ir.model.fields,field_description:account_customer_followup.field_followup_level__email_template_id
+#: model:ir.model.fields,field_description:account_customer_followup.field_res_partner__reminder_email_template_id
+#: model:ir.model.fields,field_description:account_customer_followup.field_res_users__reminder_email_template_id
 msgid "Email Template"
 msgstr ""
 
@@ -280,6 +314,13 @@ msgstr "Premier e-mail de rappel poli de suivi de paiement"
 #: model:ir.ui.menu,name:account_customer_followup.menu_action_followup_level
 msgid "Follow-up Levels"
 msgstr "Niveaux de relance"
+
+#. module: account_customer_followup
+#: code:addons/account_customer_followup/models/res_partner.py:0
+#: model:ir.actions.report,name:account_customer_followup.action_report_followup_reminder
+#, python-format
+msgid "Follow-up Reminder"
+msgstr "Créances client"
 
 #. module: account_customer_followup
 #: model:ir.actions.act_window,name:account_customer_followup.action_customer_followup
@@ -406,15 +447,14 @@ msgid "Normal payer"
 msgstr "Payeur Normal"
 
 #. module: account_customer_followup
+#: model_terms:ir.ui.view,arch_db:account_customer_followup.report_followup_report_document
+msgid "Number"
+msgstr "Numéro"
+
+#. module: account_customer_followup
 #: model_terms:ir.ui.view,arch_db:account_customer_followup.customer_followup_search_view
 msgid "Overdue Invoices"
 msgstr "Factures en retard"
-
-#. module: account_customer_followup
-#: model:ir.model.fields,field_description:account_customer_followup.field_res_partner__reminder_text
-#: model:ir.model.fields,field_description:account_customer_followup.field_res_users__reminder_text
-msgid "Reminder text"
-msgstr "Mail de rappel"
 
 #. module: account_customer_followup
 #: model_terms:ir.ui.view,arch_db:account_customer_followup.customer_followup_search_view
@@ -440,6 +480,7 @@ msgstr "Séquence"
 
 #. module: account_customer_followup
 #: model_terms:ir.ui.view,arch_db:account_customer_followup.customer_followup_form_view
+#: model_terms:ir.ui.view,arch_db:account_customer_followup.report_followup_report_document
 msgid "Source Document"
 msgstr "Document source"
 
