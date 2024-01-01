@@ -18,11 +18,11 @@ class ResPartner(models.Model):
                                                         ('payment_state', 'in', ('not_paid', 'partial'))],
                                                 string='unpaid invoices',readonly=False)
     total_amount_due = fields.Monetary(compute='_get_amounts',
-                                       string="Amount Due",store=False )  # search='_payment_due_search')
+                                       string="Amount Due",store=True )  # search='_payment_due_search')
     total_amount_due_report = fields.Monetary(compute='_get_amounts',
                                        string="Amount Due",store=False )
     total_amount_overdue = fields.Monetary(compute='_get_amounts',
-                                           string="Amount Overdue",store=False )  # search='_payment_overdue_search')
+                                           string="Amount Overdue",store=True )  # search='_payment_overdue_search')
 
     followup_status = fields.Selection(
         [('in_need_of_action', 'In need of action'),
@@ -69,17 +69,21 @@ class ResPartner(models.Model):
         self.ensure_one()
         current_date = fields.Date.today()
         for followup_level in self._possible_followup_levels():
+            # TODO : if the current followup_level is done in the current customer we have to skip this reminder level and pick the next one
             if reference_date_due + timedelta(days=followup_level.delay) <= current_date:
                 return followup_level
+        # TODO : if all the followup levels has been used by this customer we have to do a action (init reminders for this customer for instance)
 
     def _get_followup(self):
         """ Get the reminder level rule applied for each partner according to its use case
         * When the minimum due date from the list of unpaid invoices + reminder level rule delay <= today and the reminder level rule hasn't been applied yet,
-        we have to follow the level rule and put the possible actions according to it
-        * Else we seek other rules and do the same checks"""
+        we have to pick the reminder level and put the possible actions according to it
+        * Else we seek other levels and do the same checks"""
         current_date = fields.Date.today()
         # check only partner with unpaid invoices
         for each in self.filtered(lambda par:par.account_move_residual_ids):
+            # TODO : First step => if the customer is excluded from reminding we have to skip them
+            # TODO : Second step => if the customer is already in process of being reminded we have to skip them
             # get the earliest due date invoice
             earliest_date_due = each._get_earliest_date_due()
             # if no invoice has exceeded the due duration,we have no reminder to do
