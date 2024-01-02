@@ -23,6 +23,11 @@ class FollowupLevel(models.Model):
     action_list_ids = fields.Many2many('followup.level.action', 'followup_level_action_rel', 'level_id', 'action_id',
                                        string="Actions")
 
+    def _greater_then_followup_level(self,followup_level):
+        self.ensure_one()
+        if not followup_level:
+            return True
+        return self.delay > followup_level.delay
 
 class FollowupLevelAction(models.Model):
     _name = 'followup.level.action'

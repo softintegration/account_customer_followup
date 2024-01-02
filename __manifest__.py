@@ -2,7 +2,7 @@
 
 {
     'name': 'Account customer followup',
-    'version': '1.0.1.3',
+    'version': '1.0.1.4',
     'author':'Soft-integration',
     'category': 'Accounting',
     'description': "",
@@ -13,6 +13,7 @@
         'security/ir.model.access.csv',
         'data/account_customer_followup_data.xml',
         'data/mail_templates_data.xml',
+        'data/ir_cron_data.xml',
         'views/res_partner_views.xml',
         'views/followup_level_views.xml',
         'views/account_customer_followup_menuitems.xml',

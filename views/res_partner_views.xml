@@ -7,11 +7,11 @@
             <field name="arch" type="xml">
                 <form string="report" create="false">
                     <header>
-                        <!--<button type="object" name="send_invoices_by_mail" string="Send by mail" class="oe_highlight"
-                        attrs="{'invisible':[('send_by_mail_action','=',False)]}"/>
+                        <button type="object" name="send_invoices_by_mail" string="Send by mail" class="oe_highlight"
+                        attrs="{'invisible':['|',('send_by_mail_action','=',False),('followup_status','!=','in_need_of_action')]}"/>
 
                         <button type="object" name="make_as_done" string="Make action as done"
-                        attrs="{'invisible':[('followup_status','!=','in_need_of_action')]}"/>-->
+                        attrs="{'invisible':[('followup_status','!=','in_need_of_action')]}"/>
                         <field name="followup_status" widget="statusbar"/>
                     </header>
                     <sheet>

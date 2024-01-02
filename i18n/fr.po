@@ -169,7 +169,7 @@ msgstr "<strong>Client:</strong>"
 #. module: account_customer_followup
 #: model_terms:ir.ui.view,arch_db:account_customer_followup.report_followup_report_document
 msgid "<strong>Edition date:</strong>"
-msgstr "<strong>Date:</strong>"
+msgstr "<strong>Date d'édition:</strong>"
 
 #. module: account_customer_followup
 #: model_terms:ir.ui.view,arch_db:account_customer_followup.report_followup_report_document

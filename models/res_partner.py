@@ -11,6 +11,7 @@ class ResPartner(models.Model):
                                    ('normal', 'Normal payer'),
                                    ('blocked', 'Bad payer'), ], string='Type of payer', required=True, index=True,
                                   default='normal')
+    followup_level_id = fields.Many2one('followup.level',string='Follow-up level currently applied to this partner')
     next_reminder_date = fields.Date(string='Next reminder Date', index=True,readonly=True)
     account_move_residual_ids = fields.One2many("account.move", 'partner_id',
                                                 domain=[('move_type', 'in',('out_invoice',))
@@ -52,63 +53,62 @@ class ResPartner(models.Model):
             each.total_amount_due = total_amount_due
             each.total_amount_due_report = total_amount_due_report
             each.total_amount_overdue = total_amount_overdue
-        self._get_followup()
 
-    def _get_earliest_date_due(self):
-        self.ensure_one()
-        earliest_date_due = min([am.invoice_date_due or am.date for am in self.account_move_residual_ids])
-        return earliest_date_due
-
-    def _possible_followup_levels(self):
-        possible_followup_levels_domain = [('company_id','=',self.env.company.id)]
-        return self.env['followup.level'].search(possible_followup_levels_domain,order='sequence,id')
-
-
-
-    def _get_suitable_followup_level(self,reference_date_due):
-        self.ensure_one()
-        current_date = fields.Date.today()
-        for followup_level in self._possible_followup_levels():
-            # TODO : if the current followup_level is done in the current customer we have to skip this reminder level and pick the next one
-            if reference_date_due + timedelta(days=followup_level.delay) <= current_date:
-                return followup_level
-        # TODO : if all the followup levels has been used by this customer we have to do a action (init reminders for this customer for instance)
-
+    @api.model
     def _get_followup(self):
         """ Get the reminder level rule applied for each partner according to its use case
         * When the minimum due date from the list of unpaid invoices + reminder level rule delay <= today and the reminder level rule hasn't been applied yet,
         we have to pick the reminder level and put the possible actions according to it
         * Else we seek other levels and do the same checks"""
+        # Get only the partners with unpaid invoices
+        partners = self.env['account.move'].search([('move_type', 'in',('out_invoice',)),('state', '=', 'posted'),
+                                                        ('payment_state', 'in', ('not_paid', 'partial'))]).mapped("partner_id")
         current_date = fields.Date.today()
-        # check only partner with unpaid invoices
-        for each in self.filtered(lambda par:par.account_move_residual_ids):
+        for each in partners:
             # TODO : First step => if the customer is excluded from reminding we have to skip them
-            # TODO : Second step => if the customer is already in process of being reminded we have to skip them
+            # browse all the unpaid invoices
+            for account_move in each.account_move_residual_ids:
+                invoice_date_due = account_move.invoice_date_due or account_move.date
+                # if the invoice due date is not reached yet ,we have to skip the invoice
+                if invoice_date_due > current_date:
+                    continue
+                # if the invoice is already being followed-up ,we should skip it
+                if account_move._is_being_followed_invoice():
+                    continue
+                # if this is the first time to follow the invoice or it has been already followed and done with follow-up level
+                # we have to follow the invoice with the next follow-up level
+                if not account_move._is_followed_invoice() or account_move._is_done_followed_invoice():
+                    account_move._followup_invoice()
             # get the earliest due date invoice
-            earliest_date_due = each._get_earliest_date_due()
+            #earliest_date_due = each._get_earliest_date_due()
             # if no invoice has exceeded the due duration,we have no reminder to do
-            if earliest_date_due > current_date:
-                continue
+            #if earliest_date_due > current_date:
+            #    continue
             # search the suitable reminder rule to apply according to the earliest date due found for this partner
-            reminder_date = False
-            suitable_followup_level = each._get_suitable_followup_level(earliest_date_due)
-            if suitable_followup_level:
-                reminder_date = earliest_date_due + timedelta(days=suitable_followup_level.delay)
-                each.next_reminder_date = reminder_date
-            if reminder_date and reminder_date <= current_date:
-                each._apply_reminder_rule(suitable_followup_level)
-                each.next_reminder_date = current_date
-            elif each.total_amount_overdue > 0:
+            #reminder_date = False
+            #suitable_followup_level = each._get_suitable_followup_level(earliest_date_due)
+            #if suitable_followup_level:
+            #    reminder_date = earliest_date_due + timedelta(days=suitable_followup_level.delay)
+            #    each.next_reminder_date = reminder_date
+            #if reminder_date and reminder_date <= current_date:
+            #    each._apply_reminder_rule(suitable_followup_level)
+            #    each.next_reminder_date = current_date
+            if each.followup_status != 'in_need_of_action' and each.total_amount_overdue > 0:
                 each.followup_status = 'with_overdue_invoices'
-            else:
+            elif each.followup_status != 'in_need_of_action':
                 each._init_followup_status()
 
 
-    def _apply_reminder_rule(self,reminder_rule):
+    def _evaluate_followup_level(self,followup_level):
+        for each in self:
+            if followup_level._greater_then_followup_level(each.followup_level_id):
+                each._apply_followup_level(followup_level)
+
+    def _apply_followup_level(self,followup_level):
         # in this step ,beside the reminder rule details,the followup_status must be in_need_of_action
-        values = {'followup_status':'in_need_of_action'}
-        if reminder_rule.action_list_ids.filtered(lambda act:act.action_code == 'action_send_bymail'):
-            values.update({'send_by_mail_action':True,'reminder_email_template_id':reminder_rule.email_template_id.id})
+        values = {'followup_level_id':followup_level.id,'followup_status':'in_need_of_action'}
+        if followup_level.action_list_ids.filtered(lambda act:act.action_code == 'action_send_bymail'):
+            values.update({'send_by_mail_action':True,'reminder_email_template_id':followup_level.email_template_id.id})
         self.write(values)
 
     def _init_followup_status(self):
@@ -148,5 +148,8 @@ class ResPartner(models.Model):
         self._make_as_done()
 
     def _make_as_done(self):
-        pass
+        self.mapped("account_move_residual_ids")._is_being_followed_invoice()._set_as_done()
+        self._init_followup_status()
+
+
 
