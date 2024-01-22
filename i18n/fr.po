@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-22 09:14+0000\n"
-"PO-Revision-Date: 2024-01-22 09:14+0000\n"
+"POT-Creation-Date: 2024-01-22 09:37+0000\n"
+"PO-Revision-Date: 2024-01-22 09:37+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -207,9 +207,6 @@ msgid "Active"
 msgstr ""
 
 #. module: account_customer_followup
-#: model:ir.model.fields,field_description:account_customer_followup.field_account_bank_statement_line__amount_residual_overdue
-#: model:ir.model.fields,field_description:account_customer_followup.field_account_move__amount_residual_overdue
-#: model:ir.model.fields,field_description:account_customer_followup.field_account_payment__amount_residual_overdue
 #: model:ir.model.fields,field_description:account_customer_followup.field_res_partner__total_amount_due
 #: model:ir.model.fields,field_description:account_customer_followup.field_res_partner__total_amount_due_report
 #: model:ir.model.fields,field_description:account_customer_followup.field_res_users__total_amount_due
@@ -222,7 +219,6 @@ msgstr "Montant dû"
 #. module: account_customer_followup
 #: model:ir.model.fields,field_description:account_customer_followup.field_res_partner__total_amount_overdue
 #: model:ir.model.fields,field_description:account_customer_followup.field_res_users__total_amount_overdue
-#: model_terms:ir.ui.view,arch_db:account_customer_followup.report_followup_report_document
 msgid "Amount Overdue"
 msgstr "Montant dû en retard"
 
@@ -268,6 +264,7 @@ msgstr ""
 
 #. module: account_customer_followup
 #: model_terms:ir.ui.view,arch_db:account_customer_followup.customer_followup_form_view
+#: model_terms:ir.ui.view,arch_db:account_customer_followup.report_followup_report_document
 msgid "Customer Order reference"
 msgstr "Référence commande client"
 

@@ -29,6 +29,7 @@
                                 <th name="th_date" class="text-center">Date</th>
                                 <th name="th_invoice_date_due" class="text-center">Due Date</th>
                                 <th name="th_invoice_origin" class="text-center">Source Document</th>
+                                <th name="th_invoice_ref" class="text-center">Customer Order reference</th>
                                 <th name="th_amount_residual_signed" class="text-center">Amount Due</th>
                             </tr>
                         </thead>
@@ -53,6 +54,9 @@
                                     </t>
                                     <t>
                                         <td class="text-center"><span t-field="line.invoice_origin"/></td>
+                                    </t>
+                                    <t>
+                                        <td class="text-center"><span t-field="line.ref"/></td>
                                     </t>
                                     <t>
                                         <td class="text-center"><span t-field="line.amount_residual_signed"
