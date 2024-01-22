@@ -126,6 +126,7 @@
             (0, 0, {'view_mode': 'form', 'view_id': ref('customer_followup_form_view')})]"/>
             <field name="search_view_id" ref="customer_followup_search_view"/>
             <field name="context">{'search_default_filter_in_need_of_action':1}</field>
+            <field name="domain">[('parent_id','=',False)]</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     No follow-up to send!

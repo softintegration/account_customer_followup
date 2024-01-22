@@ -2,7 +2,7 @@
 
 {
     'name': 'Account customer followup',
-    'version': '1.0.1.9',
+    'version': '1.0.1.10',
     'author':'Soft-integration',
     'category': 'Accounting',
     'description': "",
