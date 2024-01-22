@@ -113,6 +113,9 @@
                     <filter string="Overdue Invoices" name="filter_with_overdue_invoices" domain="[('followup_status', '=', 'with_overdue_invoices')]"/>
                     <filter string="In need of action" name="filter_in_need_of_action" domain="[('followup_status', '=', 'in_need_of_action')]"/>
                     <filter string="No action needed" name="filter_no_action_needed" domain="[('followup_status', '=', 'no_action_needed')]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Followup status" name="group_by_followup_status" context="{'group_by': 'followup_status'}"/>
+                    </group>
                 </search>
             </field>
         </record>
