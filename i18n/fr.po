@@ -177,6 +177,12 @@ msgid "<strong>Total Amount Due</strong>"
 msgstr "<strong>Total dû</strong>"
 
 #. module: account_customer_followup
+#: model_terms:ir.ui.view,arch_db:account_customer_followup.report_followup_report_document
+msgid "<strong>Total Amount Overdue</strong>"
+msgstr "<strong>Total dû en retard</strong>"
+
+
+#. module: account_customer_followup
 #: model:mail.template,name:account_customer_followup.email_template_followup_level1
 msgid "A bit urging second payment follow-up reminder email"
 msgstr "E-mail de rappel de suivi du deuxième paiement un peu incitatif"
@@ -209,6 +215,7 @@ msgstr "Montant dû"
 #. module: account_customer_followup
 #: model:ir.model.fields,field_description:account_customer_followup.field_res_partner__total_amount_overdue
 #: model:ir.model.fields,field_description:account_customer_followup.field_res_users__total_amount_overdue
+#: model_terms:ir.ui.view,arch_db:account_customer_followup.report_followup_report_document
 msgid "Amount Overdue"
 msgstr "Montant dû en retard"
 

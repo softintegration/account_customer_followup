@@ -30,6 +30,7 @@
                                 <th name="th_invoice_date_due" class="text-center">Due Date</th>
                                 <th name="th_invoice_origin" class="text-center">Source Document</th>
                                 <th name="th_amount_residual_signed" class="text-center">Amount Due</th>
+                                <th name="th_amount_residual_overdue" class="text-center">Amount Overdue</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -57,6 +58,19 @@
                                     <t>
                                         <td class="text-center"><span t-field="line.amount_residual_signed"
                                         t-options='{"widget": "monetary", "display_currency": line.currency_id}'/></td>
+                                    </t>
+                                    <t>
+                                        <td class="text-center">
+                                            <t t-if="line.amount_residual_overdue &lt;= 0.0">
+                                                <span t-field="line.amount_residual_overdue"
+                                                    t-options='{"widget": "monetary", "display_currency": line.currency_id}'/>
+                                            </t>
+                                            <t t-if="line.amount_residual_overdue &gt; 0.0">
+                                                <span t-field="line.amount_residual_overdue"
+                                                      style="color:#ad2b03;"
+                                                    t-options='{"widget": "monetary", "display_currency": line.currency_id}'/>
+                                            </t>
+                                        </td>
                                     </t>
                                 </tr>
                             </t>
@@ -86,6 +100,21 @@
                                         <td class="text-right">
                                             <span t-field="doc.total_amount_due_report"
                                                   t-options='{"widget": "monetary", "display_currency": doc.company_id.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-black o_subtotal">
+                                        <td><strong>Total Amount Overdue</strong></td>
+                                        <td class="text-right">
+                                            <t t-if="doc.total_amount_overdue &lt;= 0.0">
+                                                <span t-field="doc.total_amount_overdue"
+                                                  t-options='{"widget": "monetary", "display_currency": doc.company_id.currency_id}'/>
+                                            </t>
+                                            <t t-if="doc.total_amount_overdue &gt; 0.0">
+                                                <span t-field="doc.total_amount_overdue"
+                                                      style="color:#ad2b03;"
+                                                  t-options='{"widget": "monetary", "display_currency": doc.company_id.currency_id}'/>
+                                            </t>
+
                                         </td>
                                     </tr>
                                 </table>

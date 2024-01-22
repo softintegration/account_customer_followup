@@ -50,6 +50,7 @@ class ResPartner(models.Model):
                     total_amount_due_report += account_move.amount_residual
                 if date_due <= current_date:
                     total_amount_overdue += account_move.amount_residual
+                    account_move.amount_residual_overdue = account_move.amount_residual
             each.total_amount_due = total_amount_due
             each.total_amount_due_report = total_amount_due_report
             each.total_amount_overdue = total_amount_overdue

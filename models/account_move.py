@@ -11,6 +11,7 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     excluded_from_report = fields.Boolean(string='Excluded',default=False,readonly=False)
+    amount_residual_overdue = fields.Monetary(string='Amount Due',store=True,currency_field='company_currency_id')
 
 
     def _is_followed_invoice(self):
