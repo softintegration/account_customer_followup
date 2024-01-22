@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-25 10:19+0000\n"
-"PO-Revision-Date: 2023-12-25 10:19+0000\n"
+"POT-Creation-Date: 2024-01-22 09:14+0000\n"
+"PO-Revision-Date: 2024-01-22 09:14+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -181,11 +181,15 @@ msgstr "<strong>Total dû</strong>"
 msgid "<strong>Total Amount Overdue</strong>"
 msgstr "<strong>Total dû en retard</strong>"
 
-
 #. module: account_customer_followup
 #: model:mail.template,name:account_customer_followup.email_template_followup_level1
 msgid "A bit urging second payment follow-up reminder email"
 msgstr "E-mail de rappel de suivi du deuxième paiement un peu incitatif"
+
+#. module: account_customer_followup
+#: model:ir.model.fields,field_description:account_customer_followup.field_account_move_followup_level__account_move_id
+msgid "Account move"
+msgstr ""
 
 #. module: account_customer_followup
 #: model:ir.model.fields,field_description:account_customer_followup.field_followup_level_action__action_code
@@ -203,6 +207,9 @@ msgid "Active"
 msgstr ""
 
 #. module: account_customer_followup
+#: model:ir.model.fields,field_description:account_customer_followup.field_account_bank_statement_line__amount_residual_overdue
+#: model:ir.model.fields,field_description:account_customer_followup.field_account_move__amount_residual_overdue
+#: model:ir.model.fields,field_description:account_customer_followup.field_account_payment__amount_residual_overdue
 #: model:ir.model.fields,field_description:account_customer_followup.field_res_partner__total_amount_due
 #: model:ir.model.fields,field_description:account_customer_followup.field_res_partner__total_amount_due_report
 #: model:ir.model.fields,field_description:account_customer_followup.field_res_users__total_amount_due
@@ -225,11 +232,17 @@ msgid "Archived"
 msgstr "Archivé"
 
 #. module: account_customer_followup
+#: model:ir.model.constraint,message:account_customer_followup.constraint_account_move_followup_level_account_move_followup_uniq
+msgid "At more One follow-up level can be assigned to account move!"
+msgstr ""
+
+#. module: account_customer_followup
 #: model:ir.model.fields.selection,name:account_customer_followup.selection__res_partner__payer_type__blocked
 msgid "Bad payer"
 msgstr "Mauvais payeur"
 
 #. module: account_customer_followup
+#: model:ir.model.fields,field_description:account_customer_followup.field_account_move_followup_level__company_id
 #: model:ir.model.fields,field_description:account_customer_followup.field_followup_level__company_id
 msgid "Company"
 msgstr "Société"
@@ -240,16 +253,23 @@ msgid "Contact"
 msgstr ""
 
 #. module: account_customer_followup
+#: model:ir.model.fields,field_description:account_customer_followup.field_account_move_followup_level__create_uid
 #: model:ir.model.fields,field_description:account_customer_followup.field_followup_level__create_uid
 #: model:ir.model.fields,field_description:account_customer_followup.field_followup_level_action__create_uid
 msgid "Created by"
 msgstr ""
 
 #. module: account_customer_followup
+#: model:ir.model.fields,field_description:account_customer_followup.field_account_move_followup_level__create_date
 #: model:ir.model.fields,field_description:account_customer_followup.field_followup_level__create_date
 #: model:ir.model.fields,field_description:account_customer_followup.field_followup_level_action__create_date
 msgid "Created on"
 msgstr ""
+
+#. module: account_customer_followup
+#: model_terms:ir.ui.view,arch_db:account_customer_followup.customer_followup_form_view
+msgid "Customer Order reference"
+msgstr "Référence commande client"
 
 #. module: account_customer_followup
 #: model_terms:ir.ui.view,arch_db:account_customer_followup.report_followup_report_document
@@ -268,10 +288,16 @@ msgid "Define follow-up levels and their related actions"
 msgstr "Définir les niveaux de relance et leurs actions associées"
 
 #. module: account_customer_followup
+#: model:ir.model.fields,field_description:account_customer_followup.field_account_move_followup_level__display_name
 #: model:ir.model.fields,field_description:account_customer_followup.field_followup_level__display_name
 #: model:ir.model.fields,field_description:account_customer_followup.field_followup_level_action__display_name
 msgid "Display Name"
 msgstr "Nom à afficher"
+
+#. module: account_customer_followup
+#: model:ir.model.fields.selection,name:account_customer_followup.selection__account_move_followup_level__state__done
+msgid "Done"
+msgstr ""
 
 #. module: account_customer_followup
 #: model_terms:ir.ui.view,arch_db:account_customer_followup.report_followup_report_document
@@ -327,9 +353,16 @@ msgstr ""
 
 #. module: account_customer_followup
 #: model:ir.model,name:account_customer_followup.model_followup_level
+#: model:ir.model.fields,field_description:account_customer_followup.field_account_move_followup_level__followup_level_id
 #: model_terms:ir.ui.view,arch_db:account_customer_followup.followup_level_form_view
 msgid "Follow-up level"
 msgstr "Niveau de relance"
+
+#. module: account_customer_followup
+#: model:ir.model.fields,field_description:account_customer_followup.field_res_partner__followup_level_id
+#: model:ir.model.fields,field_description:account_customer_followup.field_res_users__followup_level_id
+msgid "Follow-up level currently applied to this partner"
+msgstr ""
 
 #. module: account_customer_followup
 #: model:ir.actions.act_window,name:account_customer_followup.action_followup_level
@@ -366,6 +399,7 @@ msgid "Good payer"
 msgstr "Bon payeur"
 
 #. module: account_customer_followup
+#: model:ir.model.fields,field_description:account_customer_followup.field_account_move_followup_level__id
 #: model:ir.model.fields,field_description:account_customer_followup.field_followup_level__id
 #: model:ir.model.fields,field_description:account_customer_followup.field_followup_level_action__id
 msgid "ID"
@@ -378,23 +412,31 @@ msgid "In need of action"
 msgstr "Besoin d'une action"
 
 #. module: account_customer_followup
+#: model:ir.model.fields.selection,name:account_customer_followup.selection__account_move_followup_level__state__in_progress
+msgid "In progress"
+msgstr ""
+
+#. module: account_customer_followup
 #: model:ir.model,name:account_customer_followup.model_account_move
 msgid "Journal Entry"
 msgstr "Pièce comptable"
 
 #. module: account_customer_followup
+#: model:ir.model.fields,field_description:account_customer_followup.field_account_move_followup_level____last_update
 #: model:ir.model.fields,field_description:account_customer_followup.field_followup_level____last_update
 #: model:ir.model.fields,field_description:account_customer_followup.field_followup_level_action____last_update
 msgid "Last Modified on"
 msgstr ""
 
 #. module: account_customer_followup
+#: model:ir.model.fields,field_description:account_customer_followup.field_account_move_followup_level__write_uid
 #: model:ir.model.fields,field_description:account_customer_followup.field_followup_level__write_uid
 #: model:ir.model.fields,field_description:account_customer_followup.field_followup_level_action__write_uid
 msgid "Last Updated by"
 msgstr ""
 
 #. module: account_customer_followup
+#: model:ir.model.fields,field_description:account_customer_followup.field_account_move_followup_level__write_date
 #: model:ir.model.fields,field_description:account_customer_followup.field_followup_level__write_date
 #: model:ir.model.fields,field_description:account_customer_followup.field_followup_level_action__write_date
 msgid "Last Updated on"
@@ -449,6 +491,13 @@ msgid "Overdue Invoices"
 msgstr "Factures en retard"
 
 #. module: account_customer_followup
+#: model:ir.actions.server,name:account_customer_followup.ir_cron_partner_followup_ir_actions_server
+#: model:ir.cron,cron_name:account_customer_followup.ir_cron_partner_followup
+#: model:ir.cron,name:account_customer_followup.ir_cron_partner_followup
+msgid "Partner: Payment reminder "
+msgstr ""
+
+#. module: account_customer_followup
 #: model_terms:ir.ui.view,arch_db:account_customer_followup.customer_followup_search_view
 msgid "Search Partner"
 msgstr ""
@@ -475,6 +524,11 @@ msgstr "Séquence"
 #: model_terms:ir.ui.view,arch_db:account_customer_followup.report_followup_report_document
 msgid "Source Document"
 msgstr "Document source"
+
+#. module: account_customer_followup
+#: model:ir.model.fields,field_description:account_customer_followup.field_account_move_followup_level__state
+msgid "State"
+msgstr ""
 
 #. module: account_customer_followup
 #: model_terms:ir.ui.view,arch_db:account_customer_followup.customer_followup_form_view
@@ -523,6 +577,11 @@ msgstr "E-mail de rappel de suivi de paiement urgent"
 #: model:ir.model.fields.selection,name:account_customer_followup.selection__res_partner__followup_status__with_overdue_invoices
 msgid "With overdue invoices"
 msgstr "Avec factures en retard"
+
+#. module: account_customer_followup
+#: model:ir.model,name:account_customer_followup.model_account_move_followup_level
+msgid "account.move.followup.level"
+msgstr ""
 
 #. module: account_customer_followup
 #: model:ir.model,name:account_customer_followup.model_followup_level_action

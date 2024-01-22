@@ -49,6 +49,7 @@
                                             <field name="date" string="Date" readonly="1"/>
                                             <field name="invoice_date_due" widget="remaining_days" readonly="1"/>
                                             <field name="invoice_origin" string="Source Document" readonly="1"/>
+                                            <field name="ref" string="Customer Order reference" optional="show" readonly="1"/>
                                             <field name="excluded_from_report" readonly="0"/>
                                             <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" optional="hide" readonly="1"/>
                                             <field name="amount_untaxed_signed" string="Tax Excluded" sum="Total" optional="hide" readonly="1"/>
