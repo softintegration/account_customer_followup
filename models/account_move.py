@@ -60,6 +60,7 @@ class AccountMove(models.Model):
 
 
 
+
 class AccountMoveFollowup(models.Model):
     _name = 'account.move.followup.level'
 
