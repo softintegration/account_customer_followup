@@ -4,6 +4,7 @@
         <record id="customer_followup_form_view" model="ir.ui.view">
             <field name="name">customer.followup.form.view</field>
             <field name="model">res.partner</field>
+            <field name="priority" eval="100"/>
             <field name="arch" type="xml">
                 <form string="report" create="false">
                     <header>
@@ -89,6 +90,7 @@
         <record id="customer_followup_tree_view" model="ir.ui.view">
             <field name="name">customer.followup.tree.view</field>
             <field name="model">res.partner</field>
+            <field name="priority" eval="100"/>
             <field name="arch" type="xml">
                 <tree string="Follow-up Reports Tree View" create="false" import="false" delete="false">
                     <field name="currency_id" invisible="1"/>
@@ -105,6 +107,7 @@
         <record id="customer_followup_search_view" model="ir.ui.view">
             <field name="name">customer.followup.search.view</field>
             <field name="model">res.partner</field>
+            <field name="priority" eval="100"/>
             <field name="arch" type="xml">
                 <search string="Search Partner">
                     <field name="name"
