@@ -5,7 +5,7 @@
         <menuitem id="menu_action_customer_followup" name="Follow-up Reports"
                   parent="account.menu_finance_receivables"
                   action="action_customer_followup" sequence="20"
-                  groups="account.group_account_user"/>
+                  groups="account.group_account_invoice"/>
 
 
         <menuitem action="action_followup_level" id="menu_action_followup_level"
