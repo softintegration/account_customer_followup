@@ -11,6 +11,22 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     excluded_from_report = fields.Boolean(string='Excluded',default=False,readonly=False)
+    display_move_id = fields.Many2one('account.move',store=False,compute='_compute_display_move')
+
+    @api.depends('name', 'state')
+    def name_get(self):
+        if not self.env.context.get('only_name_as_ref',False):
+            return super(AccountMove,self).name_get()
+        else:
+            result = []
+            for each in self:
+                result.append((each.id, each.name))
+            return result
+
+    @api.depends('name')
+    def _compute_display_move(self):
+        for each in self:
+            each.display_move_id = each.id
 
 
     def _is_followed_invoice(self):
